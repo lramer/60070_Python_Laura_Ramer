@@ -2,7 +2,19 @@
 
 {% block contenidoquecambia %}
 
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
 
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Guardar Usuario</button>
+</form>
 
 {% endblock contenidoquecambia %}
         
