@@ -1,0 +1,49 @@
+{% extends 'padre.html' %}
+
+
+{% block contenidoquecambia %}
+
+<h1>
+<form action="/inicio/buscar" method="get">
+
+   <input type="text"titulo='titulo'>
+   <input type="submit" value="Buscar">
+
+</form>
+
+</h1>
+
+<h1>
+   {% if titulo %}   
+ <p> estamos buscando  {{titulo}}</p>
+
+
+
+ <ul>
+
+    {% for titulo in comics %}
+    <li> {{titulo.titulo}} </li>
+    <li> {{titulo.autor}} </li>
+    <li> {{titulo.editorial}} </li>
+    <li> {{titulo.fecha_publicacion}} </li>
+    <li> {{titulo.numero_edicion}} </li>
+    <li> {{titulo.descripcion}} </li>
+    <li> {{titulo.valor}} </li>
+    <li> {{titulo.stock}} </li>
+    
+    {% endfor %}
+
+ </ul>
+
+ {% else %}
+
+   <p> No Hay Comics con ese nombre </p>
+
+ {% endif %}
+</h1>
+ 
+
+
+    
+{% endblock contenidoquecambia %}
+    
