@@ -1,8 +1,11 @@
 from django.shortcuts import redirect, render
 from django.template import loader
 from django.http import HttpResponse
-from .models import usuario,Coleccion,Comic
-from .forms import usuarioform,Comicform
+from .models import Comic ,Coleccion #usuario
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView,DeleteView,UpdateView
+#from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 def inicio_inicio(req):
@@ -11,53 +14,68 @@ def inicio_inicio(req):
     documento = plantila.render({})
     return HttpResponse(documento)
 
-def guardar_usuario(req):
-    if req.method == 'POST':
-        form = usuarioform(req.POST)
-        if form.is_valid():
-            form.save()  
-            plantila = loader.get_template('index.html')
-            documento = plantila.render({})
-            return HttpResponse(documento)
-    else:
-        form = usuarioform()
-    
-    context = {'form': form}
-    return render(req, 'nuevo_usuario.html', context)
+### ini ver que eliminar
 
-def nuevo_titulo(req):
-    if req.method == 'POST':
-        form = Comicform(req.POST)
-        if form.is_valid():
-            form.save()  
-            plantila = loader.get_template('index.html')
-            documento = plantila.render({})
-            return HttpResponse(documento)
-    else:
-        form = Comicform()
-    
-    context = {'form': form}
-    return render(req, 'nuevo_titulo.html', context)
+### fin ver que eliminar
 
-def mostrar_comics(req):
-    comics = Comic.objects.all()
-    context = {'comics':comics }
-    return render(req,'listar_comics.html',context)
+class comicList(ListView):
 
+    model = Comic
+    template_name = 'lista_comics.html'
+    context_object_name = 'comics'
 
-def busqueda_comics(req):
-    return render(req,'buscar_comics.html')
+class comicDetalle(DetailView):
+
+    model = Comic
+    template_name = 'detail_comics.html'
+    context_object_name = 'comics'    
+
+class comicCreate(CreateView):
+    model = Comic
+    template_name = 'create_comics.html'    
+    fields = ('__all__')
+    success_url = '/inicio'
+
+class comicUpdate(UpdateView):
+    model = Comic
+    template_name = 'update_comics.html'    
+    fields = ('__all__')
+    success_url = '/inicio'    
+    context_object_name = 'comics'
+
+class comicDelete(DeleteView):    
+    model = Comic
+    template_name = 'delete_comics.html'      
+    success_url = '/inicio'
 
 
-def buscar(req): 
-    if req.GET['titulo']:
-        nuevo_titulo = req.GET['titulo']
-        comics = Comic.objects.filter(titulo__icontains=nuevo_titulo)
-        return render(req,'buscar_comics.html',{'titulo':comics.titulo,'autor':comics.autor,'editorial':comics.editorial,'fecha_publicacion':comics.fecha_publicacion,'numero_edicion':comics.numero_edicion,'descripcion':comics.descripcion,'valor':comics.valor,'stock':comics.stock})
+class coleccionlist(ListView):
+    model = Coleccion
+    template_name = 'lista_coleccion.html'   
+    context_object_name = 'coleccion'
 
-    else:
-        respuesta = 'No se encontraron resultados '
+class coleccionDetalle(DetailView):
+    model = Coleccion
+    template_name = 'detalle_coleccion.html'   
+    context_object_name = 'coleccion'
 
-        return HttpResponse(respuesta)
+class coleccionCreate(CreateView):
+    model = Coleccion
+    template_name = 'create_coleccion.html'    
+    fields = ('__all__')
+    success_url = '/inicio'
+
+class coleccionUpdate(UpdateView):
+    model = Coleccion
+    template_name = 'update_coleccion.html'    
+    fields = ('__all__')
+    success_url = '/inicio'    
+    context_object_name = 'coleccion'
+
+class coleccionDelete(DeleteView):    
+    model = Coleccion
+    template_name = 'delete_coleccion.html'      
+    success_url = '/inicio'    
+
 
 

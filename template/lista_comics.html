@@ -1,0 +1,33 @@
+{% extends 'padre.html' %}
+
+
+{% block contenidoquecambia %}
+
+
+
+    <h1>Lista de Comics</h1>
+
+    <ul>
+      
+      {% for comic in comics %}
+        <li>
+        
+            {{ comic }}
+          
+        </li>
+        
+      {% endfor %}
+        
+    </ul>
+  
+    <a href="{% url 'crear_comics' %}">Crea Comic</a>
+     
+   
+
+
+    
+
+
+    
+{% endblock contenidoquecambia %}
+    

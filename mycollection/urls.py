@@ -1,15 +1,20 @@
 from django.urls import path
-from .views import inicio_inicio,guardar_usuario,nuevo_titulo,mostrar_comics,busqueda_comics,buscar
+from .views import *
 
 urlpatterns = [
     
     path('', inicio_inicio, name='inicio'),
-    path('Usuario/', guardar_usuario, name='usuario'),
-    path('', guardar_usuario, name='usuario'),
-    path('comics/', nuevo_titulo, name='comics'),
-    path('', nuevo_titulo, name='comics'),
-    path('Mostrarcomics/', mostrar_comics, name='mostrarcomics'),
-    path('buscar_comics/', busqueda_comics, name='buscar_comics'),
-    path('buscar/', buscar ),
+    path('lista_comics/', comicList.as_view(), name='lista_comics'),
+    path('detalle_comics/', comicDetalle.as_view(), name='detalle_comics'),
+    path('crear_comics/', comicCreate.as_view(), name='crear_comics'),
+    path('modifica_comics/', comicUpdate.as_view(), name='modifica_comics'),
+    path('elimina_comics/', comicDelete.as_view(), name='elimina_comics'),
+
+
+    path('colecciones/', coleccionlist.as_view(), name='colecciones'),
+    path('detalle_coleccion/', coleccionDetalle.as_view(), name='detalle_coleccion'),
+    path('crear_coleccion/', coleccionCreate.as_view(), name='crear_coleccion'),
+    path('modifica_coleccion/', coleccionUpdate.as_view(), name='modifica_coleccion'),
+    path('elimina_coleccion/', coleccionDelete.as_view(), name='elimina_coleccion'),
 
 ]

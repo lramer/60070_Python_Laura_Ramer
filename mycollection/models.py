@@ -25,13 +25,13 @@ class Comic(models.Model):
     
 
 class Coleccion(models.Model):
-    usuario = models.ForeignKey(usuario, on_delete=models.CASCADE, related_name='coleccion')
+    descripcion =models.CharField(max_length=200)
     comic = models.ForeignKey(Comic, on_delete=models.CASCADE)
     fecha_adquisicion = models.DateField(auto_now_add=True)
-    estado = models.CharField(max_length=50, choices=[('nuevo', 'Nuevo'), ('usado', 'Usado')])
+    estado = models.CharField(max_length=50, choices=[('que me faltan', 'que me faltan'), ('disponibles para canje', 'disponibles para canje'), ('en la biblioteca', 'en la biblioteca'), ('Variant Cover', 'Variant Cover')])
 
     def __str__(self):
-        return f"{self.comic.titulo} en la colección de {self.usuario.user_name}"
+        return f"es la colección ... {self.descripcion} "
     
 
 
