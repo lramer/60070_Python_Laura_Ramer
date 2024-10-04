@@ -5,7 +5,9 @@ from .models import Comic ,Coleccion #usuario
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
-#from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
+
 
 # Create your views here.
 def inicio_inicio(req):
@@ -76,6 +78,36 @@ class coleccionDelete(DeleteView):
     model = Coleccion
     template_name = 'delete_coleccion.html'      
     success_url = '/inicio'    
+
+def login_req(req):
+    if req.method == 'post':
+
+        form = AuthenticationForm(req, data = req.POST)
+    
+        if form.is_valid():
+            user = form.cleaned_data.get('username')
+            pswd = form.cleaned_data.get('password')
+
+            user = authenticate(username = user,password = pswd)
+
+            if user is not None:
+                login(req,user)
+
+                return render(req,' /inicio/ ',{"mensaje":f" Bienvenido al sitio! {user}"})  
+
+            else:
+
+                return render(req,' /inicio/ ',{"mensaje":" Datos Incorrectos "})  
+
+        else:
+
+            return render(req,'/inicio/',{"mensaje":" Formulario Incorrecto "})  
+
+    form = AuthenticationForm()
+
+    return render(req,'/inicio/login/',{'form':form})
+
+
 
 
 

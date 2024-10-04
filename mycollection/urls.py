@@ -4,6 +4,7 @@ from .views import *
 urlpatterns = [
     
     path('', inicio_inicio, name='inicio'),
+    path('login/', login_req, name="Login"),
     path('lista_comics/', comicList.as_view(), name='lista_comics'),
     path('detalle_comics/', comicDetalle.as_view(), name='detalle_comics'),
     path('crear_comics/', comicCreate.as_view(), name='crear_comics'),
