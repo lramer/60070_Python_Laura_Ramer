@@ -4,12 +4,15 @@
 {% block contenidoquecambia %}
 
     
-    <form action="" method="POST">
-        {% csrf_token %}
-            {{ form.as_p }}
-        <button type="submit">Inciar sesion</button>
-    </form>
+<h2> Ingreso al sistema </h2>
+
+<form action = "{% url 'login' %}" method="POST">{% csrf_token %}
     
+    {{ form.as_p }}
+    
+    <button type="submit">Iniciar sesion</button>
+</form>
+
     
 {% endblock contenidoquecambia %}
     

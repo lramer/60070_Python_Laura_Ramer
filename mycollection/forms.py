@@ -1,13 +1,35 @@
 from django import forms
-from .models import usuario, Coleccion,Comic
+from .models import *
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import  UserChangeForm
 
-class usuarioform(forms.ModelForm):
-    class Meta:
-        model = usuario
-        fields = ['nombre','user_name','password']
+class UserEditForm(UserChangeForm):
+    password = forms.CharField(
+        help_text='',
+        widget= forms.HiddenInput(),required=False
+    )
+    password1 = forms.CharField(label='Contraseña',widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repetir Contraseña',widget=forms.PasswordInput)
 
-class Comicform(forms.ModelForm):
     class Meta:
-        model = Comic
-        fields =['titulo','autor','editorial','fecha_publicacion','numero_edicion','descripcion','valor','stock']
+        model= User
+        fields=('first_name','last_name','email')
+    
+    def clean_password2(self) -> str:
         
+        password1= self.cleaned_data['password1']
+        password2= self.cleaned_data['password2']
+
+        if password2 != password1:
+            raise forms.ValidationError('Las contraseñas son diferentes, intenta de nuevo...')
+        return password2
+        
+         
+class createavatarform(forms.ModelForm):
+
+    class Meta:
+        model= User_avatar
+        fields= ('imagen',)        
+
+
+

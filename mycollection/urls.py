@@ -1,10 +1,18 @@
 from django.urls import path
+from django.contrib.auth.views import LogoutView
 from .views import *
+from .forms import *
 
 urlpatterns = [
     
     path('', inicio_inicio, name='inicio'),
-    path('login/', login_req, name="Login"),
+    path('login/',login_request, name='login'),
+    path('logout/',LogoutView.as_view(template_name= 'logout.html'), name='logout'),
+
+    path('nuevo_usuario/', registro , name='nuevo_usuario'),
+    path('editar_perfil/', edit_user , name='editar_perfil'),
+    path('crear_avatar/', agregar_avatar , name='crear_avatar'),
+    
     path('lista_comics/', comicList.as_view(), name='lista_comics'),
     path('detalle_comics/', comicDetalle.as_view(), name='detalle_comics'),
     path('crear_comics/', comicCreate.as_view(), name='crear_comics'),
