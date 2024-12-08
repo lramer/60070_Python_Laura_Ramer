@@ -33,3 +33,9 @@ class createavatarform(forms.ModelForm):
 
 
 
+class comentarioForm(forms.ModelForm):
+
+    class Meta:
+        model= Comentario
+        fields=('__all__')
+

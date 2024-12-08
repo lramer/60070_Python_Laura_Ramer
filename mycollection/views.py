@@ -1,6 +1,8 @@
-from django.shortcuts import redirect, render
+from audioop import avg
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template import loader
 from django.http import HttpResponse
+from django.views import View
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView,DeleteView,UpdateView
@@ -13,11 +15,14 @@ from .models import *
 
 # Create your views here.
 def inicio_inicio(req):
-    try:
-        avatar = User_avatar.objects.get(User=req.user.id)
-        return render(req,'index.html',{'imge': avatar.image.url})
-    except:
-        return render(req,'index.html',{})
+
+  try:
+    
+    avatar = avatar.objects.get(user=req.user.id)
+    return render(req, "index.html", {'url': avatar.imagen.url})
+
+  except:
+    return render(req, "index.html", {})
 
 class comicList(ListView):
 
@@ -151,27 +156,63 @@ def edit_user(req):
         return render(req,'update_user.html',{'form': form})  
 
 
-@login_required()
+@login_required
 def agregar_avatar(req):
+    if req.method == 'POST':
+        form = createavatarform(req.POST, req.FILES)
+        if form.is_valid():
+            data = form.cleaned_data
+            # Intentar obtener el avatar del usuario
+            try:
+                avatar = User_avatar.objects.get(user=req.user)
+                # Si existe, actualizar la imagen
+                avatar.imagen = data['imagen']
+                avatar.save()
+                mensaje = 'Avatar actualizado correctamente!'
+            except User_avatar.DoesNotExist:
+                # Si no existe, crearlo
+                avatar = User_avatar(user=req.user, imagen=data['imagen'])
+                avatar.save()
+                mensaje = 'Avatar creado correctamente!'
 
-  if req.method == 'POST':
-    
-    form= createavatarform(req.POST, req.FILES)
-    if form.is_valid():
+            return render(req, 'index.html', {'mensaje': mensaje})
+        else:
+            return render(req, 'create_avatar.html', {'form': form})
+    else:
+        form = createavatarform()
+        return render(req, 'create_avatar.html', {'form': form})
+  
 
-      data = form.cleaned_data
-      avatar = User_avatar(user=req.user, imagen=data['imagen'])
-      avatar.save()
+@login_required
+def agregar_comentario(req):
 
-      return render(req, 'index.html', { 'mensaje': f'Avatar creado correctamente!'})
+    comentario=comentario.usuario = req.user   
+
+    if req.method == 'POST':
+
+        form = comentarioForm(req.POST )
+        if form.is_valid():
+            data = form.cleaned_data
+            comentario.comic = data['comic']
+            comentario.comentario = data['comentario']
+            comentario.valoracion = data['valoracion']
+            comentario.save()           
+
+            return render(req,'index.html',{'mensaje':f'Comentario creado exitosamente.'})  
+        else:
+            return render(req,'create_coment.html',{'form': form}) 
 
     else:
-      return render(req, 'create_avatar.html', { 'form': form })    
+        form = comentarioForm(instance = req.user)
+        return render(req,'create_coment.html',{'form': form})  
+    
 
-  else:
 
-    form =createavatarform()
-    return render(req, 'create_avatar.html', { 'form': form })    
+
+  
+
+
+
 
 
 

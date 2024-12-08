@@ -1,20 +1,16 @@
 {% extends 'padre.html' %}
 
-
 {% block contenidoquecambia %}
 
 
-<h1>
-    
-  <h1>Vista en detalle del Comic</h1>
 
-  <h3>Titulo: {{comic.titulo}}, Autor : {{comic.autor}}, Editorial: {{comic.editorial}} , Resumen : {{comic.descripcion}}</h3>
 
-   
-    
-</h1>
+<h1>{{comics.titulo}}</h1>
+<p>Autor: {{comics.autor}}</p>
+<p>Editorial: {{comics.editorial}}</p>
+<img src="{{comics.portada}}" alt="{{comics.titulo}}">
 
-    
+
 
 
     

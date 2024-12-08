@@ -5,20 +5,32 @@
 
 
 
-    <h1>Lista de Comics</h1>
+<h1>Lista de Comics </h1>
 
-    <ul>
-      
-      {% for comic in comics %}
-        <li>
+<ul>
+  
+  {% for comic in comics %}
+    <li>
+      <a href="{% url 'detalle_comics' comic.id %}">
+        {{ comic }}
+      </a>
+    </li>
+    <div style="display: flex; column-gap: 10px;">
+      <button>
+        <a href="{% url 'elimina_comics' comic.id %}">Eliminar</a>
+      </button>
+      <button>
+        <a href="{% url 'modifica_comics' comic.id %}">Editar</a>
+      </button>
+      <button>
+        <a href="{% url 'detalle_comics' comic.id %}">Detalle</a>
+      </button>
+      </div>
         
-            {{ comic }}
-          
-        </li>
-        
-      {% endfor %}
-        
-    </ul>
+      </div>    
+  {% endfor %}
+    
+</ul>
   
     <a href="{% url 'crear_comics' %}">Crea Comic</a>
      

@@ -15,7 +15,7 @@ class Comic(models.Model):
     portada = models.ImageField(upload_to='portadas',blank=True,null=True)   
     
     def __str__(self):
-        return f"{self.titulo} - {self.autor} -{self.editorial}"
+        return f"{self.titulo} - {self.autor} - {self.editorial} - {self.portada}"
     
 
 class Coleccion(models.Model):
@@ -51,7 +51,7 @@ class Comentario(models.Model):
         return f'{self.comic} Valoracion : {self.valoracion}'
 
 class User_avatar(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    user = models.OneToOneField(User, on_delete=models.CASCADE) 
     imagen = models.ImageField(upload_to='avatares',blank=True,null=True)        
 
 
